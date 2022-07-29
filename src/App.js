@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
+import List from './components/List.js';
+import WithLoading from './components/WithLoading.js';
+const ListWithLoading = WithLoading(List);
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [repos, setRepos] = useState();
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch(`https://jsonplaceholder.typicode.com/users`)                // API pulling repo list that might take some time 
+      .then((json) => json.json())
+      .then((repos) => {
+        console.log(repos);
+        setIsLoading(false);
+        setRepos(repos);
+      })
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ListWithLoading
+        isLoading={isLoading}
+        repos={repos}
+      />
     </div>
   );
 }
