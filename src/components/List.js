@@ -5,7 +5,7 @@ import React from 'react';
 const List = ({ repos }) => {
     if (!repos) return null;
 
-    if (!repos.length) return <p>No users, sorry</p>;
+    if (!repos.length) return <p>No users to show now, sorry</p>;
     
     return (
         <ul>
