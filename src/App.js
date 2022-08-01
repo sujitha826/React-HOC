@@ -6,7 +6,8 @@ const ListWithLoading = WithLoading(List);
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
-  const [repos, setRepos] = useState();
+  const [repos, setRepos] = useState([]);
+  const [term, setTerm] = useState("");    // adding search functionality
 
   useEffect(() => {
     setIsLoading(true);
@@ -16,11 +17,14 @@ function App() {
         console.log(repos);
         setIsLoading(false);
         setRepos(repos);
+        if (term) setRepos(repos.filter(({ name }) => name.indexOf(term) >= 0));
       })
-  }, []);
+  }, [term]);
 
   return (
     <div className="App">
+      <h2>Users List and Search using Higher Order Component</h2>
+      <input type="text" value={term} onChange={(e) => setTerm(e.target.value)} />
       <ListWithLoading
         isLoading={isLoading}
         repos={repos}
